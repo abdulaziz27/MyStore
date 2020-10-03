@@ -11,26 +11,24 @@
         <tr class="bg-light">
             <th class="text-md-center">NO</th>
             <th class="text-md-center">Product</th>
-            <th class="text-md-center">Slug</th>
             <th class="text-md-center">Image Name</th>
-            <th width="280px" class="text-md-center">Action</th>
+            <th width="350px" class="text-md-center">Action</th>
         </tr>
         @forelse ($product as $pr)
         <tr>
             <td class="text-md-center">{{ $loop->iteration }}</td>
             <td class="text-md-center">{{ $pr->product_title }}</td>
-            <td class="text-md-center">{{ $pr->product_slug }}</td> 
             <td class="text-md-center">{{ $pr->product_image }}</td>
             <td class="text-md-center">
                 <form action="{{ route('product.destroy', $pr->id) }}" method="post">
                     @csrf
                     @method('DELETE')
-                    <a href="{{ route('product.show', $pr->id) }}" class="btn btn-info">
-                    <i class="fas fa-search"></i></a>
-                    <a href="{{ route('product.edit', $pr->id) }}" class="btn btn-warning">
-                    <i class="fas fa-edit"></i></a>
+                    <a href="{{ route('product.show', $pr->product_slug) }}" class="btn btn-info">
+                    <i class="fas fa-search"> Detail</i></a>
+                    <a href="{{ route('product.edit', $pr->product_slug) }}" class="btn btn-warning">
+                    <i class="fas fa-edit"> Update</i></a>
                     <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-trash"></i></button>
+                    <i class="fas fa-trash"> Delete</i></button>
                 </form>
             </td>
         </tr>    

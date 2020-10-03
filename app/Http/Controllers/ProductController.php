@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ProductController extends Controller
 {
@@ -14,6 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $posts = Product::orderBy('created_at', 'DESC')->get();
+
         $product = Product::all();
         return view('product', compact('product'));
     }
@@ -21,15 +25,9 @@ class ProductController extends Controller
     public function showProduct($slug)
     {
         $product = Product::where('product_slug', $slug)
-                ->firstOrFail();
+                ->first();
 
-        // if (!$data) {
-        //     abort(404);
-        // }
-        // Atau dengan firstOrFail();
-
-        // dd($data);
-        return view('product', compact('product'));
+        return view("product.show", compact("product"));
     }
 
     /**
@@ -39,7 +37,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create');
     }
 
     /**
@@ -50,7 +48,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_title' => 'required',
+            'product_slug'    => 'required',
+            'product_image' => 'required',
+        ]);
+
+        product::create($request->all());
+        return redirect('product')
+        ->with('success', 'Nama Product ' . $request['name'] . ' Berhasil Dibuat.');
     }
 
     /**
@@ -61,7 +67,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view("product.show", compact("product"));
+    //     $product = Product::where('product_slug', $slug)
+    //             ->firstOrFail();
+
+    //     return view("product.show", compact("product"));
     }
 
     /**
@@ -70,8 +79,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($slug)
     {
+        $product = Product::where('product_slug', $slug)
+                ->first();
+
         return view('product.edit', compact('product'));
     }
 
@@ -89,8 +101,10 @@ class ProductController extends Controller
             'product_slug'    => 'required',
             'product_image' => 'required',
         ]);
-        $product->update($request->all());
 
+        $product->update($request->all());
+        return redirect('product')
+        ->with('success', 'Nama Product ' . $request['product_title']. ' Berhasil Diubah.');
     }
 
     /**
@@ -102,5 +116,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        return redirect('product')
+        ->with('success', 'Nama Product ' . $product['product_title'] . ' Berhasil Dihapus.');
     }
 }
