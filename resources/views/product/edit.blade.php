@@ -27,21 +27,31 @@
             <div class="card-body">
                 <form action="{{ route('product.update', $product->id) }}" method="post">
                     @csrf
-                    @method('PUT')
+                    @method('patch')
                     <div class="form-group">
                         <label for="#">Product</label>
                         <input type="text" name="product_title" class="form-control"
                             placeholder="Nama Product" value="{{ $product->product_title }}">
                     </div>
                     <div class="form-group">
-                        <label for="#">Slug</label>
-                        <input type="text" name="product_slug" class="form-control"
-                            placeholder="Nama Merk" value="{{ $product->product_slug }}">
+                        <label for="#">Category</label>
+                        <select class="form-control select2" name ="category_id" id="category_id" >
+                            <option disabled value>Select Category</option>
+                            <option value="{{ $product->category_id }}">{{ $product->category->name_categories }}</option>
+                            @foreach($category as $item)
+                                <option value="{{$item->id}}">{{$item->name_categories}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="#">Price</label>
+                        <input type="text" name="product_price" class="form-control"
+                            placeholder="Harga" value="{{ $product->product_price }}">
                     </div>
                     <div class="form-group">
                         <label for="#">Image</label>
                         <input type="text" name="product_image" class="form-control"
-                            placeholder="Harga Beli" value="{{ $product->product_image }}">
+                            placeholder="Gambar" value="{{ $product->product_image }}">
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>                    

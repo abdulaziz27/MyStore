@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="card-body">
-            <form action="{{ route('product.show', $product->product_slug) }}" method="post">
+            <form action="{{ route('product.show', $product->id) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -40,6 +40,10 @@
                 <div class="form-group">
                     <label for="#">Product Image</label>
                     <div class="form-control">{{ $product->product_image }}</div>
+                </div>
+                <div class="form-group">
+                    <label for="#">Product Price</label>
+                    <div class="form-control">{{ $product->product_price }}</div>
                 </div>
                 <div class="form-group">
                     <label for="#">Created at</label>

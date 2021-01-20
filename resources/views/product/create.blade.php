@@ -25,23 +25,38 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ route('product.store') }}" method="post">
+                <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="#">Product</label>
                         <input type="text" name="product_title" class="form-control"
-                            placeholder="Nama Product">
+                            placeholder="Product Name">
                     </div>
                     <div class="form-group">
-                        <label for="#">Slug</label>
-                        <input type="text" name="product_slug" class="form-control"
-                            placeholder="Nama Merk">
+                        <label for="#">Category</label>
+                        <select class="form-control select2" name ="category_id" id="category_id" width="100%">
+                            <!-- <option disabled value>Select Category</option> -->
+                            <option> -- Select Category -- </option>
+                            @foreach($category as $item)
+                                <option value="{{$item->id}}">{{$item->name_categories}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="#">Price</label>
+                        <input type="text" name="product_price" class="form-control"
+                            placeholder="Product Price">
                     </div>
                     <div class="form-group">
                         <label for="#">Image</label>
                         <input type="text" name="product_image" class="form-control"
-                            placeholder="Gambar Produk">
+                            placeholder="Gambar Product">
                     </div>
+                    <!-- <div class="form-group">
+                        <label for="#">Image</label>
+                        <input type="file" name="file" class="form-control"
+                            placeholder="Gambar Product">
+                    </div> -->
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>                    
             </div>
